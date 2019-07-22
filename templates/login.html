@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block main %}
+    <form>
+        <input autofocus class="form-control" autocomplete="on" name="username" placeholder="Username" type="text">
+        <br><br>
+        <input autofocus class="form-control" autocomplete="on" name="password" placeholder="Password" type="text">
+        <br><br>
+        <input type="submit">
+    </form>
+{% endblock %}

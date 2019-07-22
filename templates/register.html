@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form>
+        <input type="text" autocomplete="off" autofocus class="form-control" name="username" placeholder="Username">
+        <br><br>
+        <input class="form-control" name="password" placeholder="Password" type="password">
+        <br><br>
+        <input class="form-control" name="password_confirm" placeholder="Enter Password Again" type="password">
+        <br><br>
+        <input type="submit">
+    </form>
+{% endblock %}
