@@ -5,10 +5,15 @@
 {% endblock %}
 
 {% block main %}
-    <form>
+    <br>
+    <h1>
+        Login
+    </h1>
+    <br><br>
+    <form action="/login" method="post">
         <input autofocus class="form-control" autocomplete="on" name="username" placeholder="Username" type="text">
         <br><br>
-        <input autofocus class="form-control" autocomplete="on" name="password" placeholder="Password" type="text">
+        <input autofocus class="form-control" autocomplete="on" name="password" placeholder="Password" type="password">
         <br><br>
         <input type="submit">
     </form>

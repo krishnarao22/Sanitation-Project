@@ -33,27 +33,28 @@ db = SQL("sqlite:///sanitation.db")
 def index():
     return render_template("layout.html")
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=["GET"])
+def get_register():
+    return render_template("register.html")
+
+@app.route("/register", methods=["POST"])
 def register():
-    if request.method == "GET":
-        return render_template("register.html")
-    elif request.method == "POST":
-        if len(db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))) != 0:
-          return "This username is already taken!"
-        elif not request.form.get("username"):
-            return "You did not give a username!"
-        elif not request.form.get("password"):
-            return "You did not give a password!"
-        elif request.form.get("password")!=request.form.get("password_confirm"):
-            return "Your passwords did not match!"
+    if len(db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))) != 0:
+        return "This username is already taken!"
+    elif not request.form.get("username"):
+        return "You did not give a username!"
+    elif not request.form.get("password"):
+        return "You did not give a password!"
+    elif request.form.get("password")!=request.form.get("password_confirm"):
+        return "Your passwords did not match!"
+    else:
+        pwhash = generate_password_hash(request.form.get("password"))
+        rows = db.execute("SELECT * from users WHERE username = :username", username=request.form.get("username"))
+        if len(rows) == 0:
+            db.execute("INSERT INTO users (username,hash) VALUES (:username, :hash)", username=request.form.get("username"), hash=pwhash)
+            return render_template("login.html")
         else:
-            pwhash = generate_password_hash(request.form.get("password"))
-            rows = db.execute("SELECT * from users WHERE username = :username", username=request.form.get("username"))
-            if len(rows) == 0:
-                db.execute("INSERT INTO users (username,hash) VALUES (:username, :hash)", username=request.form.get("username"), hash=pwhash)
-                return render_template("login.html")
-            else:
-                return "This username is already taken!"
+            return "This username is already taken!"
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -72,3 +73,7 @@ def login():
             else:
                 session["user_id"] = rows[0]["id"]
                 return redirect("/")
+
+@app.route("/instr", methods=["GET"])
+def instr():
+    return render_template("instructions.html")
