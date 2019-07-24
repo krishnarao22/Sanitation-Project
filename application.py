@@ -31,7 +31,7 @@ db = SQL("sqlite:///sanitation.db")
 
 @app.route("/")
 def index():
-    return render_template("layout.html")
+    return render_template("home.html")
 
 @app.route("/register", methods=["GET"])
 def get_register():
@@ -48,6 +48,7 @@ def register():
     elif request.form.get("password")!=request.form.get("password_confirm"):
         return "Your passwords did not match!"
     else:
+        # Create user in SQL database
         pwhash = generate_password_hash(request.form.get("password"))
         rows = db.execute("SELECT * from users WHERE username = :username", username=request.form.get("username"))
         if len(rows) == 0:
@@ -67,6 +68,7 @@ def login():
         elif not request.form.get("password"):
             return("You must enter a password")
         else:
+            # Validate user
             rows = db.execute("SELECT * from users WHERE username = :username", username=request.form.get("username"))
             if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
                 return "Invalid username or password!"
@@ -77,3 +79,26 @@ def login():
 @app.route("/instr", methods=["GET"])
 def instr():
     return render_template("instructions.html")
+
+@app.route("/logout", methods=["GET"])
+def logout():
+
+    # Log the user out
+    session.clear()
+
+    # Return user to home page
+    return redirect("/")
+
+@app.route("/delacc", methods=["GET", "POST"])
+def delacc():
+    #Display delete page when requested
+    if request.method == "GET":
+        return render_template("delacc.html")
+    else:
+        if request.form.get("delacc") == "yes":
+
+            # NOT FUNCTIONAL
+            db.execute("DELETE FROM users WHERE id=:uid", uid=session["user_id"])
+            return redirect("/")
+        else:
+            return redirect("/")
