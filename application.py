@@ -29,6 +29,19 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///sanitation.db")
 
+# Create dictionaries for the part where information is printed onto the screen.
+
+# Dict for titles
+info_titles_dict = {
+    1: "Key Facts"
+}
+
+# Dict for main text
+info_maintxt_dict = {
+    1: "Test"
+}
+
+
 @app.route("/")
 def index():
     return render_template("home.html")
@@ -96,8 +109,6 @@ def delacc():
         return render_template("delacc.html")
     else:
         if request.form.get("delacc") == "yes":
-
-            # NOT FUNCTIONAL
             db.execute("DELETE FROM users WHERE id=:uid", uid=session["user_id"])
             session.clear()
             return redirect("/")
