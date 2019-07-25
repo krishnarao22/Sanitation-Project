@@ -99,6 +99,7 @@ def delacc():
 
             # NOT FUNCTIONAL
             db.execute("DELETE FROM users WHERE id=:uid", uid=session["user_id"])
+            session.clear()
             return redirect("/")
         else:
             return redirect("/")
