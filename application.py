@@ -38,7 +38,7 @@ info_titles_dict = {
 
 # Dict for main text
 info_maintxt_dict = {
-    1: "Test"
+    1: ["In 2017, 45% of the global population (3.4 billion people) used a safely managed sanitation service", "31% of the global population (2.4 billion people) used private sanitation facilities connected to sewers from which wastewater was treated."],
 }
 
 
@@ -114,3 +114,11 @@ def delacc():
             return redirect("/")
         else:
             return redirect("/")
+
+@app.route("/information", methods=["GET", "POST"])
+def info():
+    if request.method == "GET":
+        lvl = db.execute("SELECT level FROM users WHERE id=:uid", uid = session["user_id"])
+        print(lvl)
+        lvl = lvl[0]["level"]
+        return render_template("info.html", level=lvl, titles=info_titles_dict, maintxt=info_maintxt_dict)
