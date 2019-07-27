@@ -17,5 +17,13 @@
             {% endfor %}
         </ul>
     </main>
+    <br>
+    <h5>Continue?</h5>
+    <form action="/information" method="post">
+        <input type="radio" name="continue" value="yes" checked>  Yes <br>
+        <input type="radio" name="continue" value="no">  No <br>
+        <input type="submit">
+
+    </form>
 
 {% endblock %}

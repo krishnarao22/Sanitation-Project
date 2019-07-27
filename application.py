@@ -119,6 +119,25 @@ def delacc():
 def info():
     if request.method == "GET":
         lvl = db.execute("SELECT level FROM users WHERE id=:uid", uid = session["user_id"])
-        print(lvl)
         lvl = lvl[0]["level"]
         return render_template("info.html", level=lvl, titles=info_titles_dict, maintxt=info_maintxt_dict)
+    else:
+        if request.form.get("continue") == "yes":
+            return redirect("/questions")
+        else:
+            return redirect("/information")
+
+@app.route("/questions", methods=["GET", "POST"])
+def questions():
+    if request.method == "GET":
+        # Change 1 for level number, revise question_num
+        q = db.execute("SELECT question FROM '1' WHERE q_id=:question_num", question_num = 1)
+        q = q[0]['question']
+        print(q)
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id=:question_num", question_num = '1')
+        opt = opt[0]
+        opt_list = []
+        for key in opt:
+            opt_list.append(opt[key])
+        print(opt_list)
+        return render_template("questions.html", question = q, opt_list = opt_list)
