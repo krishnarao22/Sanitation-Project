@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Information
+{% endblock %}
+
+{% block main %}
+
+    <br>
+    <h1>{{ titles[level] }}</h1>
+    <br>
+
+    <main>
+        <ul>
+            {% for element in maintxt[level] %}
+                <li> {{ element }} </li>
+            {% endfor %}
+        </ul>
+    </main>
+
+{% endblock %}
