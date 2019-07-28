@@ -123,21 +123,25 @@ def info():
         return render_template("info.html", level=lvl, titles=info_titles_dict, maintxt=info_maintxt_dict)
     else:
         if request.form.get("continue") == "yes":
-            return redirect("/questions")
+            return redirect("/question1")
         else:
             return redirect("/information")
 
-@app.route("/questions", methods=["GET", "POST"])
-def questions():
+@app.route("/question1", methods=["GET", "POST"])
+def question1():
     if request.method == "GET":
         # Change 1 for level number, revise question_num
-        q = db.execute("SELECT question FROM '1' WHERE q_id=:question_num", question_num = 1)
+        q = db.execute("SELECT question FROM '1' WHERE q_id='1'")
         q = q[0]['question']
         print(q)
-        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id=:question_num", question_num = '1')
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id='1'")
         opt = opt[0]
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
+        answer = db.execute("SELECT ans FROM '1' WHERE q_id='1'")
+        answer = answer[0]["ans"]
         print(opt_list)
-        return render_template("questions.html", question = q, opt_list = opt_list)
+        return render_template("question1.html", question = q, opt_list = opt_list, answer = answer)
+    else:
+        return "submitted via py"
