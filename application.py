@@ -127,6 +127,8 @@ def info():
         else:
             return redirect("/information")
 
+# QUESTIONS AND VERIFICATION SECTION
+
 @app.route("/question1", methods=["GET", "POST"])
 def question1():
     if request.method == "GET":
@@ -139,9 +141,29 @@ def question1():
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
-        answer = db.execute("SELECT ans FROM '1' WHERE q_id='1'")
-        answer = answer[0]["ans"]
-        print(opt_list)
-        return render_template("question1.html", question = q, opt_list = opt_list, answer = answer)
+        return render_template("question1.html", question = q, opt_list = opt_list)
     else:
-        return "submitted via py"
+        answer = db.execute("SELECT ans FROM '1' WHERE q_id='1'")
+        answer = answer[0]['ans']
+        if request.form.get("answer") == answer:
+            # Change 1 for level number, revise question_num
+            q = db.execute("SELECT question FROM '1' WHERE q_id='2'")
+            q = q[0]['question']
+            print(q)
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id='2'")
+            opt = opt[0]
+            opt_list = []
+            for key in opt:
+                opt_list.append(opt[key])
+            return render_template("question2.html", question = q, opt_list = opt_list)
+        else:
+            # Change 1 for level number, revise question_num
+            q = db.execute("SELECT question FROM '1' WHERE q_id='1'")
+            q = q[0]['question']
+            print(q)
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id='1'")
+            opt = opt[0]
+            opt_list = []
+            for key in opt:
+                opt_list.append(opt[key])
+            return render_template("question1.html", question = q, opt_list = opt_list)
