@@ -41,6 +41,10 @@ info_maintxt_dict = {
     1: ["In 2017, 45% of the global population (3.4 billion people) used a safely managed sanitation service", "31% of the global population (2.4 billion people) used private sanitation facilities connected to sewers from which wastewater was treated."],
 }
 
+# Dict for sources
+info_sources_dict = {
+    1: "World Health Organization"
+}
 
 @app.route("/")
 def index():
@@ -120,7 +124,11 @@ def info():
     if request.method == "GET":
         lvl = db.execute("SELECT level FROM users WHERE id=:uid", uid = session["user_id"])
         lvl = lvl[0]["level"]
-        return render_template("info.html", level=lvl, titles=info_titles_dict, maintxt=info_maintxt_dict)
+        maintxt = db.execute("SELECT point_text FROM '1_info'")
+        for i in range(0, len(maintxt)):
+            maintxt[i] = maintxt[i]['point_text']
+        print (maintxt)
+        return render_template("info.html", level=lvl, titles=info_titles_dict, maintxt=maintxt)
     else:
         if request.form.get("continue") == "yes":
             return redirect("/question1")
@@ -133,37 +141,89 @@ def info():
 def question1():
     if request.method == "GET":
         # Change 1 for level number, revise question_num
-        q = db.execute("SELECT question FROM '1' WHERE q_id='1'")
+        q = db.execute("SELECT question FROM '1_q' WHERE q_id='1'")
         q = q[0]['question']
         print(q)
-        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id='1'")
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='1'")
         opt = opt[0]
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
         return render_template("question1.html", question = q, opt_list = opt_list)
     else:
-        answer = db.execute("SELECT ans FROM '1' WHERE q_id='1'")
+        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='1'")
         answer = answer[0]['ans']
         if request.form.get("answer") == answer:
             # Change 1 for level number, revise question_num
-            q = db.execute("SELECT question FROM '1' WHERE q_id='2'")
-            q = q[0]['question']
-            print(q)
-            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id='2'")
-            opt = opt[0]
-            opt_list = []
-            for key in opt:
-                opt_list.append(opt[key])
-            return render_template("question2.html", question = q, opt_list = opt_list)
+            return redirect("/question2")
         else:
             # Change 1 for level number, revise question_num
-            q = db.execute("SELECT question FROM '1' WHERE q_id='1'")
+            q = db.execute("SELECT question FROM '1_q' WHERE q_id='1'")
             q = q[0]['question']
             print(q)
-            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1' WHERE q_id='1'")
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='1'")
             opt = opt[0]
             opt_list = []
             for key in opt:
                 opt_list.append(opt[key])
             return render_template("question1.html", question = q, opt_list = opt_list)
+
+@app.route("/question2", methods=["GET", "POST"])
+def question2():
+    if request.method == "GET":
+        q = db.execute("SELECT question FROM '1_q' WHERE q_id='2'")
+        q = q[0]['question']
+        print(q)
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='2'")
+        opt = opt[0]
+        opt_list = []
+        for key in opt:
+            opt_list.append(opt[key])
+        return render_template("question2.html", question = q, opt_list = opt_list)
+    else:
+        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='2'")
+        answer = answer[0]['ans']
+        if request.form.get("answer") == answer:
+            # Change 1 for level number, revise question_num
+            return redirect("/question3")
+        else:
+            # Change 1 for level number, revise question_num
+            q = db.execute("SELECT question FROM '1_q' WHERE q_id='2'")
+            q = q[0]['question']
+            print(q)
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='2'")
+            opt = opt[0]
+            opt_list = []
+            for key in opt:
+                opt_list.append(opt[key])
+            return render_template("question2.html", question = q, opt_list = opt_list)
+
+@app.route("/question3", methods=["GET", "POST"])
+def question3():
+    if request.method == "GET":
+        q = db.execute("SELECT question FROM '1_q' WHERE q_id='3'")
+        q = q[0]['question']
+        print(q)
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='3'")
+        opt = opt[0]
+        opt_list = []
+        for key in opt:
+            opt_list.append(opt[key])
+        return render_template("question3.html", question = q, opt_list = opt_list)
+    else:
+        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='3'")
+        answer = answer[0]['ans']
+        if request.form.get("answer") == answer:
+            # Change 1 for level number, revise question_num
+            return redirect("/question4")
+        else:
+            # Change 1 for level number, revise question_num
+            q = db.execute("SELECT question FROM '1_q' WHERE q_id='3'")
+            q = q[0]['question']
+            print(q)
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='3'")
+            opt = opt[0]
+            opt_list = []
+            for key in opt:
+                opt_list.append(opt[key])
+            return render_template("question3.html", question = q, opt_list = opt_list)
