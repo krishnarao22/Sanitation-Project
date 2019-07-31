@@ -227,3 +227,77 @@ def question3():
             for key in opt:
                 opt_list.append(opt[key])
             return render_template("question3.html", question = q, opt_list = opt_list)
+
+@app.route("/question4", methods=["GET", "POST"])
+def question4():
+    if request.method == "GET":
+        q = db.execute("SELECT question FROM '1_q' WHERE q_id='4'")
+        q = q[0]['question']
+        print(q)
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='4'")
+        opt = opt[0]
+        opt_list = []
+        for key in opt:
+            opt_list.append(opt[key])
+        return render_template("question4.html", question = q, opt_list = opt_list)
+    else:
+        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='4'")
+        answer = answer[0]['ans']
+        if request.form.get("answer") == answer:
+            # Change 1 for level number, revise question_num
+            return redirect("/question5")
+        else:
+            # Change 1 for level number, revise question_num
+            q = db.execute("SELECT question FROM '1_q' WHERE q_id='4'")
+            q = q[0]['question']
+            print(q)
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='4'")
+            opt = opt[0]
+            opt_list = []
+            for key in opt:
+                opt_list.append(opt[key])
+            return render_template("question4.html", question = q, opt_list = opt_list)
+
+@app.route("/question5", methods=["GET", "POST"])
+def question5():
+    if request.method == "GET":
+        q = db.execute("SELECT question FROM '1_q' WHERE q_id='5'")
+        q = q[0]['question']
+        print(q)
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='5'")
+        opt = opt[0]
+        opt_list = []
+        for key in opt:
+            opt_list.append(opt[key])
+        return render_template("question5.html", question = q, opt_list = opt_list)
+    else:
+        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='5'")
+        answer = answer[0]['ans']
+        if request.form.get("answer") == answer:
+            # Change 1 for level number, revise question_num
+            return redirect("/complete")
+        else:
+            # Change 1 for level number, revise question_num
+            q = db.execute("SELECT question FROM '1_q' WHERE q_id='5'")
+            q = q[0]['question']
+            print(q)
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='5'")
+            opt = opt[0]
+            opt_list = []
+            for key in opt:
+                opt_list.append(opt[key])
+            return render_template("question5.html", question = q, opt_list = opt_list)
+
+@app.route("/complete", methods=["GET", "POST"])
+def complete():
+    if request.method == "GET":
+        return render_template("complete.html")
+    else:
+        if request.form.get("continue") == "yes":
+            user_level = db.execute("SELECT level FROM users WHERE id=:uid", uid=session["user_id"])
+            user_level = int(user_level[0]["level"])
+            user_level += 1
+            db.execute("UPDATE users SET level=:user_level WHERE id=:uid", user_level = user_level, uid=session["user_id"])
+            return redirect("/")
+        else:
+            return redirect("/complete")

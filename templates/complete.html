@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Section Complete!
+{% endblock %}
+
+{% block main %}
+    <h1>You've completed this section!</h1>
+    <br><br>
+    <h5>Continue?</h5>
+    <br>
+    <form action = "/complete" method="post">
+        <input type="radio" name="continue" value="yes">  Yes
+        <input type="radio" name="continue" value="no">  No
+        <br><br>
+        <input type="submit">
+    </form>
+{% endblock %}
