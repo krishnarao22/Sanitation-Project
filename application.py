@@ -140,8 +140,12 @@ def info():
 @app.route("/question1", methods=["GET", "POST"])
 def question1():
     if request.method == "GET":
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        print(level_name)
         # Change 1 for level number, revise question_num
-        q = db.execute("SELECT question FROM '1_q' WHERE q_id='1'")
+        q = db.execute("SELECT question FROM :table WHERE q_id='1'", table=level_name)
         q = q[0]['question']
         print(q)
         opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='1'")
