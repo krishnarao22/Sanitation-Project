@@ -33,17 +33,15 @@ db = SQL("sqlite:///sanitation.db")
 
 # Dict for titles
 info_titles_dict = {
-    1: "Key Facts"
+    1: "Key Facts",
+    2: "Benefits of Improving Sanitation"
 }
 
-# Dict for main text
-info_maintxt_dict = {
-    1: ["In 2017, 45% of the global population (3.4 billion people) used a safely managed sanitation service", "31% of the global population (2.4 billion people) used private sanitation facilities connected to sewers from which wastewater was treated."],
-}
 
 # Dict for sources
 info_sources_dict = {
-    1: "World Health Organization"
+    1: "World Health Organization",
+    2: "World Health Organization"
 }
 
 @app.route("/")
@@ -124,7 +122,8 @@ def info():
     if request.method == "GET":
         lvl = db.execute("SELECT level FROM users WHERE id=:uid", uid = session["user_id"])
         lvl = lvl[0]["level"]
-        maintxt = db.execute("SELECT point_text FROM '1_info'")
+        lvl = str(lvl) + "_info"
+        maintxt = db.execute("SELECT point_text FROM ':level'", level=lvl)
         for i in range(0, len(maintxt)):
             maintxt[i] = maintxt[i]['point_text']
         print (maintxt)
