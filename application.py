@@ -123,7 +123,7 @@ def info():
         lvl = db.execute("SELECT level FROM users WHERE id=:uid", uid = session["user_id"])
         lvl = lvl[0]["level"]
         lvl = str(lvl) + "_info"
-        maintxt = db.execute("SELECT point_text FROM ':level'", level=lvl)
+        maintxt = db.execute("SELECT point_text FROM :level", level=lvl)
         for i in range(0, len(maintxt)):
             maintxt[i] = maintxt[i]['point_text']
         print (maintxt)
@@ -147,24 +147,30 @@ def question1():
         q = db.execute("SELECT question FROM :table WHERE q_id='1'", table=level_name)
         q = q[0]['question']
         print(q)
-        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='1'")
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='1'", table=level_name)
         opt = opt[0]
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
         return render_template("question1.html", question = q, opt_list = opt_list)
     else:
-        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='1'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        answer = db.execute("SELECT ans FROM :table WHERE q_id='1'", table=level_name)
         answer = answer[0]['ans']
         if request.form.get("answer") == answer:
             # Change 1 for level number, revise question_num
             return redirect("/question2")
         else:
             # Change 1 for level number, revise question_num
-            q = db.execute("SELECT question FROM '1_q' WHERE q_id='1'")
+            level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+            level_name = str(level_name[0]["level"])
+            level_name = level_name + "_q"
+            q = db.execute("SELECT question FROM :table WHERE q_id='1'", table=level_name)
             q = q[0]['question']
             print(q)
-            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='1'")
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='1'", table=level_name)
             opt = opt[0]
             opt_list = []
             for key in opt:
@@ -174,27 +180,36 @@ def question1():
 @app.route("/question2", methods=["GET", "POST"])
 def question2():
     if request.method == "GET":
-        q = db.execute("SELECT question FROM '1_q' WHERE q_id='2'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        q = db.execute("SELECT question FROM :table WHERE q_id='2'", table=level_name)
         q = q[0]['question']
         print(q)
-        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='2'")
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='2'", table=level_name)
         opt = opt[0]
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
         return render_template("question2.html", question = q, opt_list = opt_list)
     else:
-        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='2'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        answer = db.execute("SELECT ans FROM :table WHERE q_id='2'", table=level_name)
         answer = answer[0]['ans']
         if request.form.get("answer") == answer:
             # Change 1 for level number, revise question_num
             return redirect("/question3")
         else:
             # Change 1 for level number, revise question_num
-            q = db.execute("SELECT question FROM '1_q' WHERE q_id='2'")
+            level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+            level_name = str(level_name[0]["level"])
+            level_name = level_name + "_q"
+            q = db.execute("SELECT question FROM :table WHERE q_id='2'", table=level_name)
             q = q[0]['question']
             print(q)
-            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='2'")
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='2'", table=level_name)
             opt = opt[0]
             opt_list = []
             for key in opt:
@@ -204,27 +219,36 @@ def question2():
 @app.route("/question3", methods=["GET", "POST"])
 def question3():
     if request.method == "GET":
-        q = db.execute("SELECT question FROM '1_q' WHERE q_id='3'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        q = db.execute("SELECT question FROM :table WHERE q_id='3'", table=level_name)
         q = q[0]['question']
         print(q)
-        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='3'")
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='3'", table=level_name)
         opt = opt[0]
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
         return render_template("question3.html", question = q, opt_list = opt_list)
     else:
-        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='3'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        answer = db.execute("SELECT ans FROM :table WHERE q_id='3'", table=level_name)
         answer = answer[0]['ans']
         if request.form.get("answer") == answer:
             # Change 1 for level number, revise question_num
             return redirect("/question4")
         else:
             # Change 1 for level number, revise question_num
-            q = db.execute("SELECT question FROM '1_q' WHERE q_id='3'")
+            level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+            level_name = str(level_name[0]["level"])
+            level_name = level_name + "_q"
+            q = db.execute("SELECT question FROM :table WHERE q_id='3'", table=level_name)
             q = q[0]['question']
             print(q)
-            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='3'")
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='3'", table=level_name)
             opt = opt[0]
             opt_list = []
             for key in opt:
@@ -234,27 +258,36 @@ def question3():
 @app.route("/question4", methods=["GET", "POST"])
 def question4():
     if request.method == "GET":
-        q = db.execute("SELECT question FROM '1_q' WHERE q_id='4'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        q = db.execute("SELECT question FROM :table WHERE q_id='4'", table=level_name)
         q = q[0]['question']
         print(q)
-        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='4'")
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='4'", table=level_name)
         opt = opt[0]
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
         return render_template("question4.html", question = q, opt_list = opt_list)
     else:
-        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='4'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        answer = db.execute("SELECT ans FROM :table WHERE q_id='4'", table=level_name)
         answer = answer[0]['ans']
         if request.form.get("answer") == answer:
             # Change 1 for level number, revise question_num
             return redirect("/question5")
         else:
             # Change 1 for level number, revise question_num
-            q = db.execute("SELECT question FROM '1_q' WHERE q_id='4'")
+            level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+            level_name = str(level_name[0]["level"])
+            level_name = level_name + "_q"
+            q = db.execute("SELECT question FROM :table WHERE q_id='4'", table=level_name)
             q = q[0]['question']
             print(q)
-            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='4'")
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='4'", table=level_name)
             opt = opt[0]
             opt_list = []
             for key in opt:
@@ -264,27 +297,36 @@ def question4():
 @app.route("/question5", methods=["GET", "POST"])
 def question5():
     if request.method == "GET":
-        q = db.execute("SELECT question FROM '1_q' WHERE q_id='5'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        q = db.execute("SELECT question FROM :table WHERE q_id='5'", table=level_name)
         q = q[0]['question']
         print(q)
-        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='5'")
+        opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='5'", table=level_name)
         opt = opt[0]
         opt_list = []
         for key in opt:
             opt_list.append(opt[key])
         return render_template("question5.html", question = q, opt_list = opt_list)
     else:
-        answer = db.execute("SELECT ans FROM '1_q' WHERE q_id='5'")
+        level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+        level_name = str(level_name[0]["level"])
+        level_name = level_name + "_q"
+        answer = db.execute("SELECT ans FROM :table WHERE q_id='5'", table=level_name)
         answer = answer[0]['ans']
         if request.form.get("answer") == answer:
             # Change 1 for level number, revise question_num
             return redirect("/complete")
         else:
+            level_name = db.execute("SELECT level FROM 'users' WHERE id=:uid", uid=session["user_id"])
+            level_name = str(level_name[0]["level"])
+            level_name = level_name + "_q"
             # Change 1 for level number, revise question_num
-            q = db.execute("SELECT question FROM '1_q' WHERE q_id='5'")
+            q = db.execute("SELECT question FROM :table WHERE q_id='5", table=level_name)
             q = q[0]['question']
             print(q)
-            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM '1_q' WHERE q_id='5'")
+            opt = db.execute("SELECT opt1, opt2, opt3, opt4 FROM :table WHERE q_id='5'", table=level_name)
             opt = opt[0]
             opt_list = []
             for key in opt:
