@@ -41,7 +41,15 @@ info_titles_dict = {
 # Dict for sources
 info_sources_dict = {
     1: "World Health Organization",
-    2: "World Health Organization"
+    2: "World Health Organization",
+    3: "World Health Organization"
+}
+
+#Dict for source and license links
+info_sourcelink_dict = {
+    1: "https://www.who.int/news-room/fact-sheets/detail/sanitation",
+    2: "https://www.who.int/news-room/fact-sheets/detail/sanitation",
+    3: ["https://www.who.int/water_sanitation_health/publications/guidelines-on-sanitation-and-health/en/", "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/"]
 }
 
 @app.route("/")
