@@ -75,7 +75,7 @@ def register():
         pwhash = generate_password_hash(request.form.get("password"))
         rows = db.execute("SELECT * from users WHERE username = :username", username=request.form.get("username"))
         if len(rows) == 0:
-            db.execute("INSERT INTO users (username,hash) VALUES (:username, :hash)", username=request.form.get("username"), hash=pwhash)
+            db.execute("INSERT INTO users (username,hash, language) VALUES (:username, :hash, :lang)", username=request.form.get("username"), hash=pwhash, lang=request.form.get("lang"))
             return render_template("login.html")
         else:
             return "This username is already taken!"
@@ -131,7 +131,10 @@ def info():
         lvl = db.execute("SELECT level FROM users WHERE id=:uid", uid = session["user_id"])
         lvl = lvl[0]["level"]
         lvl = str(lvl) + "_info"
-        maintxt = db.execute("SELECT point_text FROM :level", level=lvl)
+        try:
+            maintxt = db.execute("SELECT point_text FROM :level", level=lvl)
+        except:
+            return render_template("end_content.html")
         for i in range(0, len(maintxt)):
             maintxt[i] = maintxt[i]['point_text']
         print (maintxt)
