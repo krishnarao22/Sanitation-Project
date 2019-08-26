@@ -128,9 +128,16 @@ def delacc():
 @app.route("/information", methods=["GET", "POST"])
 def info():
     if request.method == "GET":
+        global language
+        language = db.execute("SELECT Language FROM users WHERE id = :uid", uid=session["user_id"])
+        language = str(language[0]["Language"])
+        print(language)
         lvl = db.execute("SELECT level FROM users WHERE id=:uid", uid = session["user_id"])
         lvl = lvl[0]["level"]
-        lvl = str(lvl) + "_info"
+        if language == "eng":
+            lvl = str(lvl) + "_info"
+        else:
+            lvl = str(lvl) + "_info_" + language
         try:
             maintxt = db.execute("SELECT point_text FROM :level", level=lvl)
         except:
