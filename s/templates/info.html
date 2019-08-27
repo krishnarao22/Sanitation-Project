@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Information
+{% endblock %}
+
+{% block main %}
+
+    <br>
+    <h1>{{ titles[level] }}</h1>
+    <br>
+
+    <main>
+        <ul>
+            {% for element in maintxt %}
+                <li> {{ element }} </li>
+            {% endfor %}
+        </ul>
+    </main>
+    <br>
+    <h5>Continue?</h5>
+    <form action="/information" method="post">
+        <input type="radio" name="continue" value="yes" checked>  Yes <br>
+        <input type="radio" name="continue" value="no">  No <br>
+        <input type="submit">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Questions
+{% endblock %}
+
+{% block main %}
+    <h2>Question 4</h2>
+    <br><br>
+    <h6>You got the last question right!</h6>
+    <br><br>
+    <h5>{{ question }}</h5>
+    <br>
+    <form action="/question4" method="post">
+        <input type="radio" name="answer" value="opt1">  {{ opt_list[0] }}<br>
+        <input type="radio" name="answer" value="opt2">  {{ opt_list[1] }}<br>
+        <input type="radio" name="answer" value="opt3">  {{ opt_list[2] }}<br>
+        <input type="radio" name="answer" value="opt4">  {{ opt_list[3] }}<br><br>
+        <input type="submit">
+    </form>
+{% endblock %}

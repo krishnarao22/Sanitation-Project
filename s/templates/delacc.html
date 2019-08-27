@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete Account
+{% endblock %}
+
+{% block main %}
+
+    <h4>
+        Are you sure you want to delete your account?
+    </h4>
+    <br>
+    <p><strong>Once deleted, your account cannot be recovered.</strong></p>
+
+    <form action="/delacc" method="post">
+        <input type="radio" name="delacc" value="yes">  YES <br><br>
+        <input type="radio" name="delacc" value="no">  NO <br><br>
+        <input type="submit">
+    </form>
+
+{% endblock %}

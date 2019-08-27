@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <br>
+    <h1>
+        Register
+    </h1>
+    <br><br>
+    <form action="/register" method="post">
+        <input type="text" autocomplete="off" autofocus class="form-control" name="username" placeholder="Username">
+        <br><br>
+        <input class="form-control" name="password" placeholder="Password" type="password">
+        <br><br>
+        <input class="form-control" name="password_confirm" placeholder="Enter Password Again" type="password">
+        <br><br>
+        <h6> Language </h6>
+        <select name="lang">
+            <option autofocus value="eng">English</option>
+            <option value="hi">Hindi</option>
+        </select>
+        <br><br>
+        <input type="submit">
+    </form>
+{% endblock %}
